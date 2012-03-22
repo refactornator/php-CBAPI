@@ -1,0 +1,3 @@
+Just some simple PHP wrappers for the Clarabridge APIs.
+
+I commonly use these APIs for new projects that leverage the Clarabridge APIs, and I thought they might be useful for anyone calling the CBAPIs with PHP.
