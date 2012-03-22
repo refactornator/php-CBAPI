@@ -90,6 +90,8 @@
 		var_dump($ex->faultcode, $ex->faultstring, $ex->faultactor, $ex->detail, $ex->_name, $ex->headerfault);
 	}
 
+	//Get a list of sentences that match your criteria
+	//Then, get the documents below
 	try{
 		$result = $soapClient->querySentence($parameters);
 	}catch (Exception $e){
@@ -106,6 +108,7 @@
 		return;
 	}
 
+	//Get each document that corresponds to a sentence that was returned above
 	$documents = Array();
 	$index = 0;
 	foreach($result->return->sentences->sentence as $sentence) {
@@ -131,9 +134,7 @@
 				$document['attributes'][$attribute->name] = 
 									array('value' => $attribute->_, 
 										'display' => $attribute->display);
-				//array_push($document['attributes'], $newAttribute);
 			}
-			//$document['attributes'] = $result->return->attributes;
 			$document['categories'] = $result->return->models->model[0]->categories;
 			$document['verbatims'] = $result->return->verbatims;
 			array_push($documents, $document);

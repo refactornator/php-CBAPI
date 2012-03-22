@@ -116,12 +116,14 @@
 	//echo 'username: '.$username.'<br />';
 	//echo 'password: '.$password.'<br />';
 
+	//Create the Endpoint Client so that you can call methods
 	try {
 		$soapClient = new SoapClient($endpointURL, array('login'=>$username, 'password'=>$password, 'trace' => true, "features" => SOAP_SINGLE_ELEMENT_ARRAYS));
 	} catch (Exception $ex) {
 		var_dump($ex->faultcode, $ex->faultstring, $ex->faultactor, $ex->detail, $ex->_name, $ex->headerfault);
 	}
 
+	//Call the Clarabridge API Endpoint with the above parameters
 	try{
 		$result = $soapClient->attribute($parameters);
 	}catch (Exception $e){
@@ -133,11 +135,14 @@
 	
 	$returnObject['status'] = $result->return->status;
 	
+	//Check for the status returned by CBAPI
 	if($returnObject['status'] != "SUCCESS") {
 		print json_encode($result);
 		return;
 	}
 	
+	//Trim out the JSON, remove extraneous parens at beginning and end
+	//decode it so you can print
 	$data = $result->return->data;
 	$data = trim($data, '(');
 	$data = rtrim($data, ')');
